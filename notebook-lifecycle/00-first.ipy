@@ -1,0 +1,12 @@
+%pip install ipyparams
+from collections import Counter
+from IPython import get_ipython
+from datetime import datetime
+import ipyparams
+line = str(datetime.now())
+line = line.replace(' ', '-')
+line = line.replace(':', '-')
+parms = '%logstart -o -r -t ' + str(ipyparams.notebook_name) + line + '.log'
+print(parms)
+ipython = get_ipython()
+ipython.magic(parms)
