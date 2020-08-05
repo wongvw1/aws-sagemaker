@@ -9,6 +9,7 @@ set -e
 
 sudo -u ec2-user -i <<'EOF'
 ipython profile create default
-wget https://raw.githubusercontent.com/wongvw1/aws-sagemaker/master/notebook-lifecycle/00-first.ipy /home/ec2-user/.ipython/profile_default/startup
+cd /home/ec2-user/.ipython/profile_default/startup
+wget https://raw.githubusercontent.com/wongvw1/aws-sagemaker/master/notebook-lifecycle/00-first.ipy 
 
 EOF
