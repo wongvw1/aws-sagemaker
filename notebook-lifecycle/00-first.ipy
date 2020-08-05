@@ -1,12 +1,39 @@
-%pip install ipyparams
-from collections import Counter
 from IPython import get_ipython
 from datetime import datetime
-import ipyparams
-line = str(datetime.now())
-line = line.replace(' ', '-')
-line = line.replace(':', '-')
-parms = '%logstart -o -r -t ' + str(ipyparams.notebook_name) + line + '.log'
+import json, boto3
+
+nb_arn = 'arn_null'
+nb_name = 'name_null'
+log_path = '/opt/ml/metadata/resource-metadata.json'
+with open(log_path, 'r') as logs:
+    metadata = json.load(logs)
+    nb_arn = metadata['ResourceArn']
+    nb_name = metadata['ResourceName']
+
+client = boto3.client('sagemaker')
+response = client.list_tags(
+    ResourceArn=nbarn,
+    NextToken='string',
+    MaxResults=50
+)
+
+userid = 'userid_null'
+tags = response['Tags']
+for item in tags: 
+    if (item['Key'] == 'userid'):
+        userid = item['Value']
+
+dt = str(datetime.now())
+dt = dt.replace(' ', '-')
+dt = dt.replace(':', '-')
+logfile = '/home/ec2-user/.ipython/profile_default/log/' + userid + '-' + nb_name + '-' + dt + '.log'
+parms = '%logstart -o -r -t ' + logfile
 print(parms)
 ipython = get_ipython()
 ipython.magic(parms)
+
+f = open(logfile, "a")
+f.write("nb_arn: " + nb_arn + '\n')
+f.write("nb_name: " + nb_name + '\n')
+f.write("userid: " + userid + '\n')
+f.close()
