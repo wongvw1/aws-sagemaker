@@ -12,7 +12,7 @@ with open(log_path, 'r') as logs:
 
 client = boto3.client('sagemaker')
 response = client.list_tags(
-    ResourceArn=nbarn,
+    ResourceArn=nb_arn,
     NextToken='string',
     MaxResults=50
 )
@@ -27,7 +27,7 @@ dt = str(datetime.now())
 dt = dt.replace(' ', '-')
 dt = dt.replace(':', '-')
 logfile = '/home/ec2-user/.ipython/profile_default/log/' + userid + '-' + nb_name + '-' + dt + '.log'
-parms = '%logstart -o -r -t ' + logfile
+parms = '%logstart -o -r -t ' + logfile + ' append'
 print(parms)
 ipython = get_ipython()
 ipython.magic(parms)
